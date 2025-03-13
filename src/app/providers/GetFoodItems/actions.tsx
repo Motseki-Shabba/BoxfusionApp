@@ -1,0 +1,49 @@
+"use client";
+import * as reduxActions from "redux-actions";
+import { IFood, IFoodStateContext } from "./context";
+
+// Action types enum
+export enum FoodActionEnums {
+  getFoodItemsPending = "GET_FOOD_ITEMS_PENDING",
+  getFoodItemsSuccess = "GET_FOOD_ITEMS_SUCCESS",
+  getFoodItemsError = "GET_FOOD_ITEMS_ERROR"
+}
+
+// Get food items actions
+export const getFoodItemsPending = reduxActions.createAction<IFoodStateContext>(
+  FoodActionEnums.getFoodItemsPending,
+  () => ({ 
+    isPending: true, 
+    isSuccess: false, 
+    isError: false,
+    foodItems: [] 
+  })
+);
+
+export const getFoodItemsSuccess = reduxActions.createAction<
+  IFoodStateContext,
+  { foodItems: IFood[]; message: string }
+>(
+  FoodActionEnums.getFoodItemsSuccess,
+  ({ foodItems, message }) => ({
+    isPending: false,
+    isSuccess: true,
+    isError: false,
+    foodItems,
+    message
+  })
+);
+
+export const getFoodItemsError = reduxActions.createAction<
+  IFoodStateContext,
+  string
+>(
+  FoodActionEnums.getFoodItemsError,
+  (message: string) => ({
+    isPending: false,
+    isSuccess: false,
+    isError: true,
+    foodItems: [],
+    message
+  })
+);

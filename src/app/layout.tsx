@@ -1,6 +1,16 @@
+import "antd/dist/reset.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { TrainerProvider } from "./providers/Registration/provider";
+import { LoginProvider } from "./providers/Login/provider";
+import { UserProvider } from "./providers/currentUser/provider";
+import { ClientProvider } from "./providers/createclient/provider";
+import { ClientRegistrationProvider } from "./providers/clientregistration/provider";
+import { ClientLoginProvider } from "./providers/ClientLogin/provider";
+import { fetchTrainerClients } from "./providers/GetClientsForTrainer/provider";
+import FoodProvider from "./providers/GetFoodItems/providers";
+import { FoodItemsProvider } from "./providers/FoodItems/provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +35,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <TrainerProvider>
+          <LoginProvider>
+            <UserProvider>
+              <ClientProvider>
+                <ClientRegistrationProvider>
+                  <ClientLoginProvider>
+                    <FoodProvider>
+                      <FoodItemsProvider>{children}</FoodItemsProvider>
+                    </FoodProvider>
+                  </ClientLoginProvider>
+                </ClientRegistrationProvider>
+              </ClientProvider>
+            </UserProvider>
+          </LoginProvider>
+        </TrainerProvider>
       </body>
     </html>
   );
